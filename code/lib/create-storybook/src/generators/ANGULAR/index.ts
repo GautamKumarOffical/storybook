@@ -120,6 +120,7 @@ export default defineGeneratorModule({
     return {
       extraPackages: [
         ...extraAngularDeps,
+        '@types/node',
         ...(useCompodoc ? ['@compodoc/compodoc', '@storybook/addon-docs'] : []),
       ],
       addScripts: false, // Handled above based on project count
