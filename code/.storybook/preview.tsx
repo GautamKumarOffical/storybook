@@ -343,6 +343,8 @@ const decorators = [
 ] satisfies Decorator[];
 
 const parameters = {
+  // Manual test value for the htmlLang parameter: renders all story canvases in French.
+  htmlLang: 'fr',
   docs: {
     theme: themes.light,
     codePanel: true,
