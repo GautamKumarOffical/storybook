@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { InvalidBlockOfPropError } from 'storybook/internal/preview-errors';
 
 import { DocsContext } from './DocsContext';
+import { resolveDocsLang } from './docsLang';
 import { Markdown } from './Markdown';
 import type { Of } from './useOf';
 import { useOf } from './useOf';
@@ -103,7 +104,19 @@ const DescriptionImpl: FC<DescriptionProps> = (props) => {
   const serviceComponentDescription = useServiceComponentDescription(resolvedOf);
   const markdown = getDescriptionFromResolvedOf(resolvedOf, serviceComponentDescription);
 
-  return markdown ? <Markdown>{markdown}</Markdown> : null;
+  const parameters =
+    resolvedOf.type === 'story'
+      ? resolvedOf.story.parameters
+      : resolvedOf.type === 'meta'
+        ? resolvedOf.preparedMeta.parameters
+        : resolvedOf.projectAnnotations.parameters;
+  const lang = resolveDocsLang(parameters);
+
+  return markdown ? (
+    <div className="sbdocs-description" lang={lang}>
+      <Markdown>{markdown}</Markdown>
+    </div>
+  ) : null;
 };
 
 export const Description = withMdxComponentOverride('Description', DescriptionImpl);
